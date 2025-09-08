@@ -1,0 +1,117 @@
+{% extends ('seller/basetwo.html') %}
+
+{% block title %} SellerProfile | FishMart {% endblock %}
+
+{% block content %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+    }
+
+    .form-container {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        width: 400px;
+        margin: 0;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        margin-top: 1%;
+    }
+
+    .form-container h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .form-container input,
+    .form-container select,
+    .form-container button {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    .form-container button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+
+    .form-container button:hover {
+        background-color: #0056b3;
+    }
+
+    .message {
+        text-align: center;
+        color: green;
+        margin-bottom: 10px;
+    }
+
+    .error {
+        text-align: center;
+        color: red;
+        margin-bottom: 10px;
+    }
+
+    .button-container {
+        display: flex;
+        gap: 10px;
+        /* Space between the buttons */
+        align-items: center;
+        /* Align buttons vertically */
+        width: 100%;
+        /* Full width container */
+    }
+
+    .button-container button {
+        flex: 1;
+        /* Make buttons take equal width */
+        text-align: center;
+        /* Center the text inside the buttons */
+    }
+
+    .action-button {
+        flex: 1;
+        /* Ensure links wrapping buttons also take equal width */
+    }
+</style>
+
+<body>
+    <div class="form-container">
+        <h2>Profile of {{ seller[1] }}</h2>
+        {% if message %}
+        <div class="{{ 'error' if 'Error' in message else 'message' }}">{{ message }}</div>
+        {% endif %}
+        <form>
+            <input type="text" name="s_id" value="{{ seller[0] }}" readonly>
+            <input type="text" name="s_name" value="{{ seller[1] }}" readonly>
+            <input type="email" name="s_email" value="{{ seller[2] }}" readonly>
+            <!-- <input type="text" name="s_password" value="{{ seller[3] }}" readonly> -->
+            <input type="text" name="s_phone" value="{{ seller[4] }}" readonly>
+            <input type="text" name="s_address" value="{{ seller[5] }}" readonly>
+        </form>
+
+        <div class="button-container">
+            <a class="action-button" href="/update_seller/{{ seller[0] }}"><button class="styled-button"
+                    style="color: black">Update Your
+                    Profile</button></a>
+
+            <a class="action-button" href="/seller_change_password"><button class="styled-button"
+                    style="color: black;">Change
+                    Password</button></a>
+        </div>
+    </div>
+
+
+</body>
+
+{% endblock %}

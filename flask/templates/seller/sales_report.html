@@ -1,0 +1,66 @@
+{% extends 'seller/basetwo.html' %}
+{% block title %} ProductList | FishMart {% endblock %}
+{% block content %}
+<style>
+    .title-button-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+    }
+
+    table {
+        width: 90%;
+        margin: 0px auto;
+        border-collapse: collapse;
+
+
+        background: rgba(255, 255, 255, 0.43);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(9.6px);
+        -webkit-backdrop-filter: blur(9.6px);
+        border: 1px solid rgba(255, 255, 255, 0.39);
+    }
+
+    th,
+    td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+    }
+
+    th {
+        background-color: #007bff;
+        color: white;
+    }
+
+    form {
+        display: inline;
+    }
+</style>
+
+<div class="title-button-container">
+    <h2 style="background-color: white; padding: 5px 10px;">Seller Sales Report List</h2>
+</div>
+
+<table>
+    <tr>
+        <th>Transaction Date</th>
+        <th>Seller Name</th>
+        <th>Buyer Name</th>
+        <th>Product Name</th>
+        <th>Quantity Purchased</th>
+        <th>Product Price</th>
+    </tr>
+    {% for sale in seller_sales %}
+    <tr>
+        <td>{{ sale[0] }}</td>
+        <td>{{ sale[1] }}</td>
+        <td>{{ sale[2] }}</td>
+        <td>{{ sale[3] }}</td>
+        <td>{{ sale[4] }}</td>
+        <td>{{ sale[5] }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

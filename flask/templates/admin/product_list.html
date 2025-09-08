@@ -1,0 +1,113 @@
+{% extends 'admin/basetwo.html' %}
+{% block title %} ProductList | FishMart {% endblock %}
+{% block content %}
+<style>
+    .title-button-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+    }
+
+    table {
+        width: 90%;
+        /* width: 80%; */
+        margin: 0px auto;
+        border-collapse: collapse;
+
+
+        background: rgba(255, 255, 255, 0.43);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(9.6px);
+        -webkit-backdrop-filter: blur(9.6px);
+        border: 1px solid rgba(255, 255, 255, 0.39);
+    }
+
+    th,
+    td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+    }
+
+    th {
+        background-color: #007bff;
+        color: white;
+    }
+
+    form {
+        display: inline;
+    }
+
+
+    .action-button {
+        padding: 5px 10px;
+        /* Comfortable padding */
+        font-size: 16px;
+        /* Balanced font size */
+        font-weight: bold;
+        /* Slightly emphasized text */
+        color: white;
+        background: linear-gradient(90deg, #4facfe, #00f2fe);
+        /* Cool gradient */
+        border: none;
+        border-radius: 5px;
+        /* Slight rounding for a rectangular look */
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        /* Removes underline for links */
+        transition: background-color 0.3s ease;
+        /* Smooth hover effect */
+    }
+
+    .action-button:hover {
+        background: linear-gradient(90deg, #00f2fe, #4facfe);
+        /* Reverse gradient on hover */
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        /* Subtle shadow on hover */
+    }
+
+    .action-button:active {
+        background: linear-gradient(90deg, #008fb3, #005f73);
+        /* Slightly darker gradient on click */
+    }
+</style>
+
+<div class="title-button-container">
+    <h2 style="background-color: white; padding: 5px 10px;">Products List</h2>
+
+    <a href="/create_product"><button class="styled-button">Create Product</button></a>
+</div>
+
+<table>
+    <tr>
+        <!-- <th>Product ID</th> -->
+        <th>Name</th>
+        <th>Image</th>
+        <th>Remark</th>
+        <th style="width: 13%;">Action</th>
+    </tr>
+    {% for product in products %}
+    <tr>
+        <!-- <td>{{ product[0] }}</td> -->
+        <td>{{ product[1] }}</td>
+        <td>
+            <img src="{{ url_for('static', filename='products/' + product[2]) }}" alt="Product Image" width="30"
+                height="30">
+        </td>
+
+        <td>{{ product[3] }}</td>
+
+        <td>
+            <a class="action-button" href="/edit_product/{{ product[0] }}">Edit</a>
+
+            <form method="POST" action="{{ url_for('delete_product', p_code=product[0]) }}">
+                <button type="submit" class="action-button"
+                    onclick="return confirm('Are you sure you want to delete this product?');">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

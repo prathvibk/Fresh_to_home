@@ -1,0 +1,198 @@
+{% extends ('admin/basetwo.html') %}
+
+{% block title %} EditProduct | FishMart {% endblock %}
+
+{% block content %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+    }
+
+    .form-container {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        width: 400px;
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%);
+        margin-top: 1%;
+
+        max-height: 70vh;
+        min-height: 70vh;
+        overflow-y: auto;
+    }
+
+    .form-container h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .form-container input,
+    .form-container textarea,
+    .form-container button {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    /* .form-container button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+
+    .form-container button:hover {
+        background-color: #0056b3;
+    } */
+
+    .form-container button {
+        background-image: linear-gradient(to right, #83a4d4 0%, #b6fbff 51%, #83a4d4 100%);
+        text-align: center;
+        transition: 0.5s;
+        background-size: 200% auto;
+        border-radius: 5px;
+        border: none;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .form-container button:hover {
+        background-position: right center;
+        text-decoration: none;
+    }
+
+    .message {
+        text-align: center;
+        color: green;
+        margin-bottom: 10px;
+    }
+
+    .error {
+        text-align: center;
+        color: red;
+        margin-bottom: 10px;
+    }
+
+    .image-preview {
+        margin-top: 10px;
+        text-align: center;
+    }
+
+    #crt_img {
+        max-width: 80px;
+        height: 80px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    .image-preview {
+        display: none;
+        /* Hide the container initially */
+        justify-content: center;
+        /* Center horizontally */
+        align-items: center;
+        /* Center vertically */
+        width: 100%;
+        /* Full width */
+        min-height: 100px;
+        /* Ensure proper centering */
+    }
+
+    .image-preview img {
+        display: inline-block;
+        object-fit: cover;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        max-width: 80px;
+        height: 80px;
+    }
+
+
+    /* Scrollbar style */
+    .form-container::-webkit-scrollbar {
+        width: 8px;
+        border-radius: 2px;
+        /* Width of the scrollbar */
+    }
+
+    .form-container::-webkit-scrollbar-thumb {
+        background: black;
+        border-radius: 2px;
+
+    }
+
+    .form-container::-webkit-scrollbar-thumb:hover {
+        background: #0056b3;
+        /* Darker shade on hover */
+    }
+
+    .form-container::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        /* Color of the scrollbar track */
+    }
+</style>
+
+<div class="form-container">
+    <h2>Edit Product</h2>
+    {% if message %}
+    <div class="{{ 'error' if 'Error' in message else 'message' }}">{{ message }}</div>
+    {% endif %}
+    <form method="POST" action="/edit_product/{{ product[0] }}" enctype="multipart/form-data">
+        <input type="number" name="p_id" value="{{ product[0] }}" readonly>
+        <input type="text" name="p_name" value="{{ product[1] }}" required>
+
+        <div>
+            <label>Current Image:</label><br>
+            <!-- Initially hide the current image and only show the new image after selection -->
+            <img src="{{ url_for('static', filename='products/' + product[2]) }}" alt="Product Image" id="crt_img">
+        </div>
+
+        <!-- Allow the user to upload a new image -->
+        <input type="file" name="p_image" accept="image/*" id="imageUpload" onchange="previewImage(event)">
+
+        <div class="image-preview" id="imagePreview">
+            <!-- Preview will be dynamically added here -->
+        </div>
+
+        <textarea name="p_remark" required>{{ product[3] }}</textarea>
+
+        <button type="submit">Update Product</button>
+    </form>
+</div>
+
+<style>
+
+</style>
+
+
+
+<script>
+    function previewImage(event) {
+        const file = event.target.files[0]; // Get the selected file
+
+        if (file) {
+            const currentImage = document.getElementById('crt_img');
+            const preview = document.getElementById('imagePreview');
+
+            // Hide the current image
+            currentImage.style.display = 'none';
+
+            // Show the preview container
+            preview.style.display = 'flex';
+
+            // Dynamically add the preview image
+            preview.innerHTML = '<img src="' + URL.createObjectURL(file) + '" alt="New Image Preview">';
+        }
+    }
+</script>
+
+
+{% endblock %}

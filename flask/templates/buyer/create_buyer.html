@@ -1,0 +1,148 @@
+{% extends 'baseone.html' %}
+{% block title %} CreateBuyer | FishMart {% endblock %}
+{% block content %}
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+
+        background: rgba(21, 21, 21, 0.79);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(16.6px);
+        -webkit-backdrop-filter: blur(16.6px);
+        border: 1px solid rgba(21, 21, 21, 0.5);
+    }
+
+    .form-container {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        width: 400px;
+        position: absolute;
+        top: 52%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        margin-top: 30px;
+    }
+
+    .form-container h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .form-container input,
+    .form-container select,
+    .form-container button,
+    .form-container textarea {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    .form-container button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+
+    .form-container button:hover {
+        background-color: #0056b3;
+    }
+
+    .message {
+        text-align: center;
+        color: green;
+        margin-bottom: 10px;
+    }
+
+    .error {
+        text-align: center;
+        color: red;
+        margin-bottom: 10px;
+    }
+
+    #toggle-password {
+        color: #aaa;
+        cursor: pointer;
+    }
+
+    #toggle-password {
+        color: #007bff;
+    }
+
+    #toggle-password:hover {
+        color: #0056b3;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        /* Two equal columns */
+        gap: 5px;
+        /* Space between fields */
+    }
+
+    .form-grid textarea,
+    button {
+        grid-column: span 2;
+        /* Textarea spans both columns */
+    }
+</style>
+
+<div class="form-container">
+    <h2>Create Buyer Account</h2>
+    {% if message %}
+    <div class="{{ 'error' if 'Error' in message else 'message' }}">{{ message }}</div>
+    {% endif %}
+    <form method="POST" action="{{ url_for('create_buyer') }}" class="form-grid">
+        <input type="text" name="b_name" placeholder="Enter Your Full Name" required>
+        <select name="b_sex" required>
+            <option value="" disabled selected>Select Your Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+        </select>
+        <input type="number" name="b_age" placeholder="Enter Your Age" min="1" required>
+        <input type="email" name="b_email" placeholder="Enter Your Email" required>
+        <!-- <input type="password" name="b_password" placeholder="Enter Password" required> -->
+
+        <div style="position: relative; display: flex; align-items: center;">
+            <input type="password" name="b_password" placeholder="Enter Password" id="password" required>
+            <i class="fa fa-eye" id="toggle-password" style="position: absolute; right: 10px;"></i>
+        </div>
+
+        <input type="text" name="b_phone" placeholder="Enter Your Phone Number" required>
+        <textarea name="b_address" placeholder="Enter Your Address" required></textarea>
+        <button type="submit">Create Buyer Account</button>
+    </form>
+
+    <p>If You have Acount, Clcick here to Login<a href="/buyer_login">Login</a></p>
+</div>
+
+
+<script>
+    document.getElementById('toggle-password').addEventListener('click', function () {
+        const passwordField = document.getElementById('password');
+        const toggleIcon = this;
+
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text'; // Show password
+            toggleIcon.classList.remove('fa-eye');
+            toggleIcon.classList.add('fa-eye-slash');
+        } else {
+            passwordField.type = 'password'; // Hide password
+            toggleIcon.classList.remove('fa-eye-slash');
+            toggleIcon.classList.add('fa-eye');
+        }
+    });
+</script>
+{% endblock %}

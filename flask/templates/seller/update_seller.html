@@ -1,0 +1,102 @@
+{% extends ('seller/basetwo.html') %}
+
+{% block title %} UpdateSellerProfile | FishMart {% endblock %}
+
+{% block content %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+    }
+
+    .form-container {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        width: 400px;
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        margin-top: 3%;
+    }
+
+    .form-container h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .form-container input,
+    .form-container select,
+    .form-container button {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    /* .form-container button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+
+    .form-container button:hover {
+        background-color: #0056b3;
+    } */
+
+    .form-container button {
+        background-image: linear-gradient(to right, #83a4d4 0%, #b6fbff 51%, #83a4d4 100%);
+        text-align: center;
+        transition: 0.5s;
+        background-size: 200% auto;
+        border-radius: 5px;
+        border: none;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .form-container button:hover {
+        background-position: right center;
+        text-decoration: none;
+    }
+
+    .message {
+        text-align: center;
+        color: green;
+        margin-bottom: 10px;
+    }
+
+    .error {
+        text-align: center;
+        color: red;
+        margin-bottom: 10px;
+    }
+</style>
+
+<body>
+    <div class="form-container">
+        <h2>Your Profile</h2>
+        {% if message %}
+        <div class="{{ 'error' if 'Error' in message else 'message' }}">{{ message }}</div>
+        {% endif %}
+        <form method="POST" action="/update_seller/{{ seller[0] }}">
+            <input type="text" name="s_id" value="{{ seller[0] }}" readonly>
+            <input type="text" name="s_name" value="{{ seller[1] }}" required>
+            <input type="email" name="s_email" value="{{ seller[2] }}" required>
+            <input type="text" name="s_phone" value="{{ seller[3] }}" required>
+            <input type="text" name="s_address" value="{{ seller[4] }}" required>
+
+            <button type="submit">Update Profile</button>
+        </form>
+
+    </div>
+</body>
+
+{% endblock %}

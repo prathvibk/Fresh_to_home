@@ -1,0 +1,160 @@
+{% extends ('buyer/basetwo.html') %}
+
+{% block title %} UpdateBuyerProfile | FishMart {% endblock %}
+
+{% block content %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+    }
+
+    .form-container {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        width: 400px;
+        margin: 0;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        margin-top: 2%;
+
+        max-height: 70vh;
+        min-height: 70vh;
+        overflow-y: auto;
+    }
+
+    .form-container h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .form-container input,
+    .form-container select,
+    .form-container button,
+    .form-container textarea {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    .form-container textarea {
+        height: 80px;
+        resize: none;
+    }
+
+    /* .form-container button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+
+    .form-container button:hover {
+        background-color: #0056b3;
+    } */
+
+
+    .form-container button {
+        background-image: linear-gradient(to right, #83a4d4 0%, #b6fbff 51%, #83a4d4 100%);
+        text-align: center;
+        transition: 0.5s;
+        background-size: 200% auto;
+        border-radius: 5px;
+        border: none;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .form-container button:hover {
+        background-position: right center;
+        text-decoration: none;
+    }
+
+
+    .message {
+        text-align: center;
+        color: green;
+        margin-bottom: 10px;
+    }
+
+    .error {
+        text-align: center;
+        color: red;
+        margin-bottom: 10px;
+    }
+
+
+    .form-container::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .form-container::-webkit-scrollbar-track {
+        background: #e0e0e0;
+        border-radius: 4px;
+    }
+
+    .form-container::-webkit-scrollbar-thumb {
+        background: #0056b3;
+        border-radius: 4px;
+    }
+
+    .form-container::-webkit-scrollbar-thumb:hover {
+        background: #003d80;
+    }
+
+
+    /* Scrollbar style */
+    .form-container::-webkit-scrollbar {
+        width: 8px;
+        border-radius: 2px;
+        /* Width of the scrollbar */
+    }
+
+    .form-container::-webkit-scrollbar-thumb {
+        background: black;
+        border-radius: 2px;
+
+    }
+
+    .form-container::-webkit-scrollbar-thumb:hover {
+        background: #0056b3;
+        /* Darker shade on hover */
+    }
+
+    .form-container::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        /* Color of the scrollbar track */
+    }
+</style>
+
+<body>
+    <div class="form-container">
+        <h2>Update Your Profile</h2>
+        {% if message %}
+        <div class="{{ 'error' if 'Error' in message else 'message' }}">{{ message }}</div>
+        {% endif %}
+        <form method="POST" action="/update_buyer/{{ buyer[0] }}">
+            <input type="text" name="b_name" value="{{ buyer[1] }}" required>
+            <select name="b_sex" required>
+                <option value="Male" {% if buyer[2]=='Male' %} selected {% endif %}>Male</option>
+                <option value="Female" {% if buyer[2]=='Female' %} selected {% endif %}>Female</option>
+                <option value="Other" {% if buyer[2]=='Other' %} selected {% endif %}>Other</option>
+            </select>
+            <input type="number" name="b_age" value="{{ buyer[3] }}" min="1" required>
+            <input type="email" name="b_email" value="{{ buyer[4] }}" required>
+            <input type="text" name="b_phone" value="{{ buyer[5] }}" required>
+            <textarea name="b_address" required>{{ buyer[6] }}</textarea>
+
+            <button type="submit" class="update_profile_btn">Update Profile</button>
+        </form>
+    </div>
+</body>
+
+{% endblock %}

@@ -1,0 +1,122 @@
+{% extends 'buyer/basetwo.html' %}
+{% block title %} BuyerPreviousOrders | FishMart {% endblock %}
+{% block content %}
+<style>
+    .title-button-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .previous_orders_container {
+        max-height: 68vh;
+        min-height: 68vh;
+
+        padding: 0px;
+        overflow-y: auto;
+    }
+
+    /* Scrollbar style */
+    .previous_orders_container::-webkit-scrollbar {
+        width: 8px;
+        border-radius: 2px;
+        /* Width of the scrollbar */
+    }
+
+    .previous_orders_container::-webkit-scrollbar-thumb {
+        background: black;
+        border-radius: 2px;
+
+    }
+
+    .previous_orders_container::-webkit-scrollbar-thumb:hover {
+        background: #0056b3;
+        /* Darker shade on hover */
+    }
+
+    .previous_orders_container::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        /* Color of the scrollbar track */
+    }
+
+    table {
+        width: 80%;
+        margin: 0px auto;
+        border-collapse: collapse;
+        background: rgba(255, 255, 255, 0.43);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(9.6px);
+        -webkit-backdrop-filter: blur(9.6px);
+        border: 1px solid rgba(255, 255, 255, 0.39);
+    }
+
+    th,
+    td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+    }
+
+    th {
+        background-color: #007bff;
+        color: white;
+    }
+
+    form {
+        display: inline;
+    }
+
+    .action-button {
+        padding: 5px 10px;
+        font-size: 16px;
+        font-weight: bold;
+        color: white;
+        background: linear-gradient(90deg, #4facfe, #00f2fe);
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .action-button:hover {
+        background: linear-gradient(90deg, #00f2fe, #4facfe);
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .action-button:active {
+        background: linear-gradient(90deg, #008fb3, #005f73);
+    }
+</style>
+
+<div class="title-button-container">
+    <h2 style="background-color: white; padding: 5px 10px;">Previous Orders List</h2>
+</div>
+<div class="previous_orders_container">
+    <table>
+        <tr>
+            <!-- <th>Order Number</th>
+        <th>Transaction ID</th> -->
+
+            <th>Transaction Date</th>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Total Price</th>
+
+        </tr>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order[6] }}</td> <!-- Transaction Date -->
+            <td>{{ order[2] }}</td> <!-- Product Name -->
+            <td>{{ order[4] }}</td> <!-- Quantity -->
+            <td>{{ order[3] }}</td> <!-- Price -->
+            <td>{{ order[5] }}</td> <!-- Total Price -->
+
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

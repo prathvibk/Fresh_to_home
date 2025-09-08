@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} {% endblock %}</title>
+
+    <style>
+        /* General page styling */
+        body {
+            font-family: Arial, sans-serif;
+            box-sizing: border-box;
+            overflow: hidden;
+            width: 100%;
+            height: 100vh;
+
+            background-image: url('/static/background/bg4.jpg');
+            backdrop-filter: blur(9.1px);
+
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center center;
+            text-align: center;
+
+            margin: 0;
+        }
+
+        #nav_container {
+            background-color: black;
+            margin: 0;
+            border-radius: 0px;
+            padding: 5px 40px;
+            box-sizing: border-box;
+        }
+
+        #b_o_pro_title {
+            font-size: 35px;
+            letter-spacing: 3px;
+            color: white;
+            margin: 0;
+        }
+
+
+        #button_group {
+            margin-top: 10px;
+            /* Reduced spacing between title and buttons */
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            /* Increased gap for better spacing */
+        }
+
+        .styled-button {
+            padding: 8px 25px;
+            /* Slightly larger buttons for better accessibility */
+            font-size: 18px;
+            font-weight: bold;
+            /* Slightly larger font */
+            color: black;
+            background: linear-gradient(90deg, #b6fbff, #83a4d4);
+            /* Modern gradient with purple and blue */
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            /* Softer shadow for depth */
+            transition: all 0.3s ease;
+            /* Smooth hover effects */
+        }
+
+        .styled-button:hover {
+            background: linear-gradient(45deg, #83a4d4, #b6fbff);
+            /* Reverse gradient for hover effect */
+            transform: scale(1.1);
+            /* Slightly enlarges button on hover */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            /* Enhanced shadow */
+        }
+
+        .styled-button:active {
+            transform: scale(0.95);
+            /* Slightly shrinks button on click */
+        }
+    </style>
+</head>
+
+<body>
+    <div id="nav_container">
+        <h1 id="b_o_pro_title">FISH MART</h1>
+
+        <div id="button_group">
+            <a href="/sellers_list"><button class="styled-button">Sellers List</button></a>
+            <a href="/product_list"><button class="styled-button">Product List</button></a>
+            <a href="/change_password"><button class="styled-button">Change Password</button></a>
+            <a href="/admin_logout" class="logout"><button class="styled-button">Logout</button></a>
+
+            <button class="styled-button" style="margin-left: 5%;">Admin Page</button>
+        </div>
+
+    </div>
+
+    <div id="b_t_container">{% block content %}{% endblock %}</div>
+</body>
+
+</html>

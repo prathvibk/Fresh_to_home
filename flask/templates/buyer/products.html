@@ -1,0 +1,716 @@
+{% extends ('buyer/basetwo.html') %}
+
+{% block title %} Products | FishMart {% endblock %}
+
+{% block content %}
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+    integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+    crossorigin="anonymous"></script>
+
+<link rel="stylesheet" type="text/css" href="static/css/buyer_buttons.css">
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+    }
+
+    .container {
+        display: flex;
+        height: 100vh;
+    }
+
+    .sidebar {
+        width: 20%;
+        padding: 20px;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+
+        min-height: 83.5vh;
+        /* Sidebar height */
+        max-height: 83.5vh;
+        /* Ensures vertical scrolling if content exceeds */
+        overflow-y: auto;
+        /* Enables vertical scrolling */
+        box-sizing: border-box;
+    }
+
+    .sidebar {
+        color: #ffffff;
+
+        background: rgba(15, 14, 14, 0.84);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(17.4px);
+        -webkit-backdrop-filter: blur(17.4px);
+        border: 1px solid rgba(15, 14, 14, 0.3);
+    }
+
+    /* .sidebar::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .sidebar::-webkit-scrollbar-track {
+        background: #e0e0e0;
+        border-radius: 4px;
+    }
+
+    .sidebar::-webkit-scrollbar-thumb {
+        background: #0056b3;
+        border-radius: 4px;
+    }
+
+    .sidebar::-webkit-scrollbar-thumb:hover {
+        background: #003d80;
+    } */
+
+
+    /* Scrollbar style */
+    .sidebar::-webkit-scrollbar,
+    .content::-webkit-scrollbar {
+        width: 8px;
+        /* Width of the scrollbar */
+    }
+
+    .sidebar::-webkit-scrollbar-thumb,
+    .content::-webkit-scrollbar-thumb {
+        background: black;
+        /* Color of the scrollbar thumb */
+        /* border-radius: 5px; */
+        /* Rounded corners */
+    }
+
+    .sidebar::-webkit-scrollbar-thumb:hover,
+    .content::-webkit-scrollbar-thumb:hover {
+        background: #0056b3;
+        /* Darker shade on hover */
+    }
+
+    .sidebar::-webkit-scrollbar-track,
+    .content::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        /* Color of the scrollbar track */
+    }
+
+    .sidebar h4 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .sidebar ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .sidebar a {
+        color: white;
+        text-decoration: none;
+        display: inline-block;
+        margin-bottom: 5px;
+    }
+
+    .sidebar a:hover {
+        color: #ffd700;
+    }
+
+    .content {
+        width: 80%;
+        min-height: 83.5vh;
+        max-height: 83.5vh;
+        padding: 0px;
+        overflow-y: auto;
+        box-sizing: border-box;
+    }
+
+    .products_container {
+        box-sizing: border-box;
+        padding: 10px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .product-card {
+        flex: 0 0 calc(25% - 15px);
+        box-sizing: border-box;
+        margin-bottom: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    .product-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .product-card .card-body {
+        padding: 10px;
+        background-color: whitesmoke;
+    }
+
+    .product-card h5 {
+        margin: 0 0 10px 0;
+        font-size: 1rem;
+    }
+
+    .product-card p {
+        margin: 0 0 10px 0;
+        font-size: 0.9rem;
+        color: #555;
+    }
+
+    .product-card a {
+        text-decoration: none;
+        color: white;
+        background-color: #007bff;
+        padding: 5px 10px;
+        border-radius: 4px;
+    }
+
+    .product-card a:hover {
+        background-color: #0056b3;
+    }
+
+    .parent-container {
+        position: relative;
+        width: 150px;
+        height: 40px;
+        margin: 0 auto;
+    }
+
+    .add-button,
+    .quantity-controls {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .add-button {
+        padding: 5px 10px;
+        font-size: 14px;
+        height: 30px;
+        width: 100%;
+    }
+
+    .quantity-controls {
+        display: none;
+    }
+
+    .quantity-controls button {
+        padding: 3px 10px;
+        font-size: 22px;
+    }
+
+    .quantity-number {
+        font-size: 20px;
+        padding: 0px 10px;
+    }
+
+    p,
+    li,
+    #status,
+    #output {
+        font-size: 12px;
+    }
+
+    /* Voice order */
+
+    button {
+        padding: 5px;
+        font-size: 12px;
+        cursor: pointer;
+    }
+
+    #status {
+        font-size: 12px;
+        font-weight: bold;
+        color: blue;
+        margin-top: 10px;
+    }
+
+
+    .message {
+        background-color: #e6f7ff;
+        border: 1px solid #91d5ff;
+        border-radius: 5px;
+        padding: 15px;
+        color: #0050b3;
+        font-size: 16px;
+        font-family: Arial, sans-serif;
+        margin: 10px 0;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    #message-container {
+        text-align: center;
+        max-width: 600px;
+        margin: 20px auto;
+    }
+</style>
+
+<div class="container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <p style="font-weight: bold;">Filter By</p>
+        <ul>
+            <li>
+                <a href="/products_index">All</a>
+            </li>
+
+            {% for p_name in unique_p_names %}
+            <li>
+                <a href="/products_index?name={{ p_name }}">{{ p_name }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+
+
+        <p style="font-weight: bold;">Fish Voice Order</p>
+        <div>
+            <button id="voice-order-btn" class="voice_order_btn" style="font-weight: bold;">Voice Order</button>
+        </div>
+        <div id="status"></div>
+        <div id="output"></div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <div class="products_container">
+            {% if request.args.get('message') %}
+            <div class="message" id="message-container">
+                <p>{{ request.args.get('message') }}</p>
+            </div>
+            {% endif %}
+
+            {% if message %}
+            <div class="alert alert-success">{{ message }}</div>
+            {% endif %}
+
+            <div class="row">
+                {% for product in products %}
+                <div class="product-card">
+                    <img src="{{ url_for('static', filename='products/' + product[5]) }}" alt="{{ product[1] }}">
+                    <div class="card-body"> <!-- Image -->
+                        <h5 class="card-title">{{ product[4] }}</h5> <!-- Name -->
+                        <p class="card-text">{{ product[6] }}</p> <!-- Remark -->
+                        <p class="card-text">Quantity(KG) - {{ product[7] }}</p> <!-- Quantity -->
+                        <p class="card-text">Price(KG) - {{ product[8] }}</p> <!-- Price -->
+
+                        <div class="parent-container">
+                            <button class="add-button btn btn-primary" onclick="showQuantityControl(this)"
+                                style="font-weight: bold;" data-product-id="{{ product[0] }}"
+                                data-product-name="{{ product[4] }}" data-sp-quantity="{{ product[7] }}"
+                                data-product-price="{{ product[8] }}">
+                                Add
+                            </button>
+
+                            <div class="quantity-controls" data-product-id="{{ product[0] }}"
+                                data-sp-quantity="{{ product[7] }}">
+                                <button class="btn btn-sm btn-secondary" onclick="decreaseQuantity(this)">-</button>
+                                <span class="quantity-number">1</span>
+                                <button class="btn btn-sm btn-secondary" onclick="increaseQuantity(this)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <!-- Button to send selected items -->
+            <button onclick="sendSelectedItems()" class="btn btn-success">Add to Basket</button>
+        </div>
+    </div>
+
+    <!-- {% if wel_msg %}
+    <script>
+        alert("{{ wel_msg }}\nIf you have not updated your card and UPI account, please update.");
+    </script>
+    {% endif %} -->
+</div>
+
+<script>
+    let selectedItems = [];
+
+    function showQuantityControl(button) {
+        const productId = button.getAttribute('data-product-id');
+        const productName = button.getAttribute('data-product-name');
+        const productOriginalQuantity = parseInt(button.getAttribute('data-sp-quantity'));
+        const productPrice = parseFloat(button.getAttribute('data-product-price'));
+
+        if (productOriginalQuantity === 0) {
+            alert(`Could not fulfill the entire order. ${productName} remain unfulfilled.`);
+            return; // Stop further execution if stock is 0
+        }
+
+        const parent = button.parentElement;
+        button.style.display = 'none';
+        parent.querySelector('.quantity-controls').style.display = 'flex';
+
+        if (!selectedItems.some(item => item.productId === productId)) {
+            selectedItems.push({
+                productId: productId,
+                productName: productName,
+                quantity: 1,
+                productPrice: productPrice,
+                stock: productOriginalQuantity,
+            });
+            console.log(selectedItems);
+        }
+    }
+
+
+    function increaseQuantity(button) {
+        const quantitySpan = button.previousElementSibling;
+        const controls = button.parentElement;
+        const productId = controls.getAttribute('data-product-id');
+        const spQuantity = parseInt(controls.getAttribute('data-sp-quantity'));
+        const current = parseInt(quantitySpan.textContent);
+
+        if (current < spQuantity) {
+            quantitySpan.textContent = current + 1;
+            const item = selectedItems.find(item => item.productId === productId);
+            if (item) item.quantity = current + 1;
+        } else {
+            alert("Stock limit reached!");
+        }
+    }
+
+    function decreaseQuantity(button) {
+        const quantitySpan = button.nextElementSibling;
+        const controls = button.parentElement;
+        const productId = controls.getAttribute('data-product-id');
+        const current = parseInt(quantitySpan.textContent);
+
+        if (current > 1) {
+            quantitySpan.textContent = current - 1;
+            const item = selectedItems.find(item => item.productId === productId);
+            if (item) item.quantity = current - 1;
+        } else {
+            controls.style.display = 'none'; // Hide quantity controls
+            controls.previousElementSibling.style.display = 'block'; // Show "Add" button again
+            selectedItems = selectedItems.filter(item => item.productId !== productId);
+        }
+    }
+</script>
+
+<script>
+    // Function to send the selected items to the backend
+    function sendSelectedItems() {
+        if (selectedItems.length > 0) {
+            fetch('/selected_products', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ items: selectedItems }), // Dynamically send selected items
+            })
+                .then(response => response.text()) // Expect HTML response
+                .then(html => {
+                    // Replace the current page content with the returned HTML
+                    document.open(); // Open the document for writing
+                    document.write(html); // Write the new HTML content
+                    document.close(); // Close the document
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    alert('An error occurred while sending selected items.');
+                });
+        } else {
+            alert('No items selected.');
+        }
+    }
+</script>
+
+<script>
+    setTimeout(function () {
+        document.getElementById('message-container').style.display = 'none';
+    }, 10000);
+</script>
+
+
+
+
+
+<script>
+    // Function to display status messages
+    function showStatus(message, color = "blue") {
+        const statusDiv = document.getElementById("status");
+        statusDiv.style.color = color;
+        statusDiv.innerText = message;
+    }
+
+    // Event listener for the "Voice Order" button
+    document.getElementById("voice-order-btn").addEventListener("click", () => {
+        // Show "Listening..." status
+        showStatus("Listening...", "white");
+
+        // Start speech-to-text process
+        fetch('/listen', { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+                const outputDiv = document.getElementById('output');
+                if (data.status === "success") {
+                    const fishName = data.fish_name; // Extract fish name
+                    const quantity = parseInt(data.quantity); // Extract quantity
+
+                    // Add recognized speech output to the output div
+                    outputDiv.innerHTML += `
+                        <p>${data.message}</p>
+                        <p>Quantity: ${quantity} ${data.unit}</p>
+                        <p>Fish Name: ${fishName}</p>
+                        <hr>
+                    `;
+
+                    // Call the function to update quantity by voice order
+                    updateQuantityByVoiceOrder(fishName, quantity);
+                } else {
+                    // Handle errors (e.g., when fish name or quantity is not detected)
+                    outputDiv.innerHTML += `<p style="color: red;">${data.message}</p><hr>`;
+                }
+
+                // Update the button text to "Continue" after the first order
+                document.getElementById("voice-order-btn").innerText = "Continue";
+
+                // Clear the status message
+                showStatus("Ready for the next action!", "green");
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                showStatus("An error occurred. Please try again.", "red");
+            });
+    });
+
+    // Existing function to update quantity based on the detected fish name and quantity
+    function updateQuantityByVoiceOrder(fishName, quantity) {
+        // Filter all matching products with the same fish name
+        const productElements = Array.from(document.querySelectorAll('.product-card')).filter(card => {
+            const productName = card.querySelector('.card-title').textContent.toLowerCase();
+            return productName === fishName.toLowerCase();
+        });
+
+        if (productElements.length === 0) {
+            alert(`Product "${fishName}" not found!`);
+            return;
+        }
+
+        let remainingQuantity = quantity;
+
+        // Iterate over matching products to fulfill the order
+        for (const productElement of productElements) {
+            const productId = productElement.querySelector('.add-button').getAttribute('data-product-id');
+            const productOriginalQuantity = parseInt(productElement.querySelector('.add-button').getAttribute('data-sp-quantity'));
+            const productPrice = parseFloat(productElement.querySelector('.add-button').getAttribute('data-product-price'));
+
+            if (remainingQuantity > 0 && productOriginalQuantity > 0) {
+                const fulfillQuantity = Math.min(remainingQuantity, productOriginalQuantity);
+
+                // Update the selectedItems array
+                let product = selectedItems.find(item => item.productId === productId);
+                if (product) {
+                    product.quantity += fulfillQuantity;
+                } else {
+                    selectedItems.push({
+                        productId: productId,
+                        productName: fishName,
+                        quantity: fulfillQuantity,
+                        productPrice: productPrice,
+                        stock: productOriginalQuantity,
+                    });
+                }
+
+                // Update the displayed quantity
+                updateQuantityDisplay(productId, fulfillQuantity);
+
+                // Update the remaining quantity
+                remainingQuantity -= fulfillQuantity;
+
+                // Update the product's stock visually
+                const updatedStock = productOriginalQuantity - fulfillQuantity;
+                productElement.querySelector('.add-button').setAttribute('data-sp-quantity', updatedStock);
+
+                if (updatedStock === 0) {
+                    alert(`Stock for product ID ${productId} is now out of stock.`);
+                }
+            }
+        }
+
+        if (remainingQuantity > 0) {
+            alert(`Could not fulfill the entire order. ${remainingQuantity} ${fishName} remain unfulfilled.`);
+        }
+
+        console.log(selectedItems); // Log the updated selected items
+    }
+
+    // Function to update the quantity display in the UI
+    function updateQuantityDisplay(productId, quantity) {
+        // Find the quantity controls for the specific product
+        const controls = document.querySelector(`.quantity-controls[data-product-id="${productId}"]`);
+        const quantitySpan = controls.querySelector('.quantity-number');
+
+        if (controls) {
+            // Update the displayed quantity
+            quantitySpan.textContent = quantity;
+
+            // Show the quantity controls if they are hidden
+            controls.style.display = 'flex';
+            controls.previousElementSibling.style.display = 'none';
+        }
+    }
+</script>
+
+
+
+
+
+<!-- <script>
+    // Function to display status messages
+    function showStatus(message, color = "blue") {
+        const statusDiv = document.getElementById("status");
+        statusDiv.style.color = color;
+        statusDiv.innerText = message;
+    }
+
+    // Event listener for the "Voice Order" button
+    document.getElementById("voice-order-btn").addEventListener("click", () => {
+        // Show "Listening..." status
+        showStatus("Listening...", "blue");
+
+        // Start speech-to-text process
+        fetch('/listen', { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+                const outputDiv = document.getElementById('output');
+                if (data.status === "success") {
+                    const fishName = data.fish_name; // Extract fish name
+                    const quantity = parseInt(data.quantity); // Extract quantity
+
+                    // Add recognized speech output to the output div
+                    outputDiv.innerHTML += `
+                        <p>${data.message}</p>
+                        <p>Quantity: ${quantity} ${data.unit}</p>
+                        <p>Fish Name: ${fishName}</p>
+                        <hr>
+                    `;
+
+                    // Call the function to update quantity by voice order
+                    updateQuantityByVoiceOrder(fishName, quantity);
+                } else {
+                    // Handle errors (e.g., when fish name or quantity is not detected)
+                    outputDiv.innerHTML += `<p style="color: red;">${data.message}</p><hr>`;
+                }
+
+                // Update the button text to "Continue" after the first order
+                document.getElementById("voice-order-btn").innerText = "Continue";
+
+                // Clear the status message
+                showStatus("Ready for the next action!", "green");
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                showStatus("An error occurred. Please try again.", "red");
+            });
+    });
+
+    // Existing function to update quantity based on the detected fish name and quantity
+    function updateQuantityByVoiceOrder(fishName, quantity) {
+        // Find the product in the selectedItems array
+        const product = selectedItems.find(item => item.productName.toLowerCase() === fishName.toLowerCase());
+
+        if (product) {
+            // Update quantity if the product already exists in the selected items
+            const newQuantity = product.quantity + quantity;
+
+            if (newQuantity <= product.stock) {
+                product.quantity = newQuantity;
+                updateQuantityDisplay(product.productId, product.quantity);
+            } else {
+                alert(`Stock limit reached for ${fishName}!`);
+            }
+        } else {
+            // Find the product in the products data
+            const productElement = Array.from(document.querySelectorAll('.product-card')).find(card => {
+                const productName = card.querySelector('.card-title').textContent.toLowerCase();
+                return productName === fishName.toLowerCase();
+            });
+
+            if (productElement) {
+                const productId = productElement.querySelector('.add-button').getAttribute('data-product-id');
+                const productOriginalQuantity = parseInt(productElement.querySelector('.add-button').getAttribute('data-sp-quantity'));
+                const productPrice = parseFloat(productElement.querySelector('.add-button').getAttribute('data-product-price'));
+
+                if (quantity <= productOriginalQuantity) {
+                    selectedItems.push({
+                        productId: productId,
+                        productName: fishName,
+                        quantity: quantity,
+                        productPrice: productPrice,
+                        stock: productOriginalQuantity,
+                    });
+                    updateQuantityDisplay(productId, quantity);
+                } else {
+                    alert(`Stock limit reached for ${fishName}!`);
+                }
+            } else {
+                alert(`Product "${fishName}" not found!`);
+            }
+        }
+
+        console.log(selectedItems); // Log the updated selected items
+    }
+
+    // Function to update the quantity display in the UI
+    function updateQuantityDisplay(productId, quantity) {
+        // Find the quantity controls for the specific product
+        const controls = document.querySelector(`.quantity-controls[data-product-id="${productId}"]`);
+        const quantitySpan = controls.querySelector('.quantity-number');
+
+        if (controls) {
+            // Update the displayed quantity
+            quantitySpan.textContent = quantity;
+
+            // Show the quantity controls if they are hidden
+            controls.style.display = 'flex';
+            controls.previousElementSibling.style.display = 'none';
+        }
+    }
+</script> -->
+
+<!-- 
+Function Name	Triggered By	Class/ID Used
+
+showQuantityControl(button)	Clicking "Add" button	.add-button
+
+increaseQuantity(button)	Clicking "+" button in quantity control	.quantity-controls (inside +)
+
+decreaseQuantity(button)	Clicking "-" button in quantity control	.quantity-controls (inside -)
+
+sendSelectedItems()	Clicking "Add to Basket" button	.btn-success
+
+setTimeout(...)	Runs automatically on page load	#message-container
+
+showStatus(message, color)	Called inside the "Voice Order" event	#status
+
+voice-order-btn click event	Clicking "Voice Order" button	#voice-order-btn
+
+updateQuantityByVoiceOrder(...)	Called when voice order is processed	.product-card (fish name matching) 
+-->
+
+
+
+
+{% endblock %}

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} {% endblock %}</title>
+
+    <style>
+        /* General page styling */
+        body {
+            font-family: Arial, sans-serif;
+            box-sizing: border-box;
+            overflow: hidden;
+            width: 100%;
+            height: 100vh;
+
+            background-image: url('/static/background/bg6.jpg');
+            backdrop-filter: blur(11.1px);
+
+            /* background: rgba(21, 21, 21, 0.79);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(16.6px);
+            -webkit-backdrop-filter: blur(16.6px);
+            border: 1px solid rgba(21, 21, 21, 0.5); */
+
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center center;
+            text-align: center;
+
+            margin: 0;
+        }
+
+        #nav_container {
+            background-color: #000000;
+            /*2C3E50 003366 4B0082 */
+            margin: 0;
+            padding: 5px 40px;
+            box-sizing: border-box;
+        }
+
+        #b_o_pro_title {
+            font-size: 35px;
+            letter-spacing: 3px;
+            color: #FFFFFF;
+            margin: 0;
+        }
+
+
+        #button_group {
+            margin-top: 10px;
+            /* Reduced spacing between title and buttons */
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            /* Increased gap for better spacing */
+        }
+
+        .styled-button {
+            padding: 8px 25px;
+            /* Slightly larger buttons for better accessibility */
+            font-size: 18px;
+            font-weight: bold;
+            /* Slightly larger font */
+            color: black;
+            background: linear-gradient(90deg, #b6fbff, #83a4d4);
+            /* Modern gradient with purple and blue */
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            /* Softer shadow for depth */
+            transition: all 0.3s ease;
+            /* Smooth hover effects */
+        }
+
+        .styled-button:hover {
+            background: linear-gradient(45deg, #83a4d4, #b6fbff);
+            /* Reverse gradient for hover effect */
+            transform: scale(1.1);
+            /* Slightly enlarges button on hover */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            /* Enhanced shadow */
+        }
+
+        .styled-button:active {
+            transform: scale(0.95);
+            /* Slightly shrinks button on click */
+        }
+
+
+        /* Styling for dropdown container */
+        .dropdown {
+            display: inline-block;
+            position: relative;
+        }
+
+        /* Dropdown button */
+        .dropdown-btn {
+            cursor: pointer;
+            position: relative;
+            width: 200px;
+            /* Set a fixed width for the button */
+            text-align: center;
+        }
+
+        /* Dropdown content */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            min-width: 200px;
+            /* Set the same width as the button */
+            border-radius: 5px;
+        }
+
+        /* Dropdown links */
+        .dropdown-content a {
+            color: black;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+        }
+
+        /* Hover effects for dropdown links */
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Show dropdown content on hover */
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="nav_container">
+        <h1 id="b_o_pro_title">FISH MART</h1>
+
+        <div id="button_group">
+            <a href="/buyer_profile"><button class="styled-button">Your Profile</button></a>
+            <a href="/products_index"><button class="styled-button">Products</button></a>
+            <a href="/privious_orders"><button class="styled-button">Previous Orders</button></a>
+
+
+            <div class="dropdown">
+                <button class="styled-button dropdown-btn">Payment Setup</button>
+                <div class="dropdown-content">
+                    <a href="/create_upi">UPI</a>
+                    <a href="/create_card">Card</a>
+                </div>
+            </div>
+
+            <a href="/buyer_logout" class="logout"><button class="styled-button">Logout</button></a>
+
+            <button class="styled-button" style="margin-left: 5%;">Buyer Page</button>
+        </div>
+
+    </div>
+
+    <div id="b_t_container">{% block content %}{% endblock %}</div>
+</body>
+
+</html>
